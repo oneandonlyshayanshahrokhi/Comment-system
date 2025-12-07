@@ -1,0 +1,413 @@
+ async function dataCm(){
+        let response = await fetch ('data.json')
+        if (response.ok){
+         let data = await response.json();
+          let container = document.querySelector(".container");
+          function createComments(index){
+            let commentsHolder = document.createElement("div") 
+              container.appendChild(commentsHolder)
+             commentsHolder.classList.add("commentsHolder")
+             return commentsHolder;
+             console.log(commentsHolder);
+             
+          }
+                
+
+                                 console.log(data);
+          
+            for (let i=0;i<data.comments.length;i++){
+             let ch = createComments(i);
+               commentsH(i,ch);
+
+           
+
+        }
+        
+        
+       
+         function commentsH(index,commentsHolder,secondCommentHolder,tryReplies,user,createdAt,Score,image,deleteEditp,newIndex,commentsId,updateButton){
+              //Data Loading
+              let score = data.comments[index].score
+              let profileImage =data.comments[index].user.image
+              let profileName =data.comments[index].user.username
+              let date = data.comments[index].createdAt
+              let comment =data.comments[index].content 
+             
+              
+                //Create Elements 
+           let button = document.createElement("div")
+           let Plus = document.createElement("span")
+           let scoreP =document.createElement("p")
+           let minus =document.createElement("span")
+           let imageInfo =document.createElement("div")
+           let profile =document.createElement("img")
+           let profileN = document.createElement("p")
+           let dateP =document.createElement("p")
+           let replyIcon = document.createElement("span")
+           let addComment = document.createElement("p")
+           //appendChilds  
+           button.appendChild(Plus)
+           button.appendChild(scoreP)
+           button.appendChild(minus)
+           commentsHolder.appendChild(imageInfo)
+           imageInfo.appendChild(profile)
+           imageInfo.appendChild(profileN)
+           imageInfo.appendChild(dateP)
+           imageInfo.appendChild(replyIcon)
+           commentsHolder.appendChild(button)
+           commentsHolder.appendChild(addComment)
+           
+            
+
+           //addClasses
+           button.classList.add("button")
+           Plus.classList.add("plus")
+           minus.classList.add("minus")
+           imageInfo.classList.add("imageInfo")
+           profile.classList.add("profile")
+           profileN.classList.add("profileN")
+           dateP.classList.add("dateP")
+           replyIcon.classList.add("replyIcon")
+           addComment.classList.add("addComment")
+           //DOM 
+           Plus.innerHTML=`<i class="fa fa-plus" style="font-size:24px"></i>`
+            scoreP.innerHTML=`${score}`
+            minus.innerHTML=`<i class="fa fa-minus" style="font-size:24px"></i>`
+            profile.src=`${profileImage.webp}`
+            profileN.innerHTML=`${profileName}`
+            dateP.innerHTML=`${date}`
+             replyIcon.innerHTML=`<img src="./images/icon-reply.svg" alt=""> Reply`
+            addComment.innerHTML=`${comment}`
+              deleteEdit(replyIcon,imageInfo,data,index,commentsHolder,addComment,commentsId,newIndex,button,updateButton)
+             Plus.addEventListener("click", ()=>{
+               score+=1
+              scoreP.innerHTML=`${score}`
+              Plus.style.pointerEvents="none"
+              Plus.style.opacity="0.4"
+             })
+             minus.addEventListener("click",()=>{
+               if(score>0){
+                 score-=1
+              scoreP.innerHTML=`${score}`
+              minus.style.pointerEvents="none"
+              minus.style.opacity="0.4"
+              }
+             })
+
+                       replyIcon.addEventListener("click",() =>{createReplycomponents(index,commentsHolder,secondCommentHolder,tryReplies,user,createdAt,Score,image,replyIcon,imageInfo,deleteEditp)
+
+                       })
+                               
+            }
+            //Create Component
+             function createReplycomponents(i,commentsHolder,secondCommentHolder,tryReplies,user,createdAt,Score,image,replyIcon,imageInfo,deleteEditp){
+            
+             
+            //create Element
+           let replyHolder = document.createElement("div");
+           let form = document.createElement("form")
+           let textarea =document.createElement("textarea")
+           let replyProfileImage=document.createElement("img")
+           let replyButton = document.createElement("button")
+           
+           //add Class
+            replyHolder.classList.add("replyHolder")
+            textarea.classList.add("textReply")
+            replyProfileImage.classList.add("replyProfileImage")
+             replyButton.classList.add("replyButton")
+           
+              
+
+            //append Child
+            replyHolder.appendChild(replyProfileImage)
+            replyHolder.appendChild(textarea)
+            replyHolder.appendChild(replyButton)
+                
+             //Dom
+               let replyProfile = data.comments[i].replies
+               let nextProfile = replyProfile.find((re) => !re.use)
+
+              //Data Loading
+
+                        let firstR = firstCommentHolderMaker(textarea, tryReplies);
+
+              if(nextProfile){
+                  replyProfileImage.src=`${nextProfile.user.image.png}`
+                    nextProfile.use=true
+
+              } else if(firstR){
+             replyProfileImage.src = firstR.user.image.png;
+
+             }
+              
+              
+              replyButton.innerHTML=`REPLY`
+            
+              //toggle
+              
+             if (!commentsHolder.nextElementSibling || (commentsHolder.nextElementSibling &&   !commentsHolder.nextElementSibling.classList.contains("replyHolder"))){
+               commentsHolder.insertAdjacentElement("afterend", replyHolder)
+             }
+             replyHolder.addEventListener("click",(e)=>{
+               if(e.target === replyHolder){
+                 replyHolder.remove()
+                 if(replyIcon._deletePanel){
+                replyIcon._deletePanel.style.display="none"
+                 replyIcon._editPanel.style.display="none"
+                 }
+                 replyIcon.style.display="block"
+               }
+           
+             })
+
+             
+            
+             //Create Acardion
+          let commentEdit = document.querySelectorAll(".commentsHolder")
+
+          commentEdit.forEach((holder) => {
+          if (holder !==commentsHolder && holder.nextElementSibling && (holder.nextElementSibling.classList.contains("replyHolder"))) {
+
+                        holder.nextElementSibling.remove();
+                        
+          }
+         
+        });
+          handleReplies(i,data,replyButton,textarea,replyHolder,nextProfile,secondCommentHolder,user,createdAt,Score,image,replyIcon)
+           
+        }
+       function handleReplies(index,data,replyButton,textarea,replyHolder,nextProfile,secondCommentHolder,user,createdAt,Score,image,replyIcon,imageInfo){
+       
+              
+                 let tryReplies = data.comments[index].replies
+
+                         
+               let nextReply = tryReplies.find((r) => !r.used)
+                
+                if(!tryReplies||tryReplies.length ===0){
+                  replyButton.addEventListener("click", (e) => {
+                      e.preventDefault();
+                          
+                                        console.log( data.comments[index].replies);
+                       replyChangesTocomment(index,data,container,replyButton,replyHolder,nextProfile,nextReply,tryReplies,textarea,user,createdAt,Score,image,replyIcon)
+                      
+                     
+                    });
+                    
+                  
+                }else{
+                
+               replyButton.addEventListener("click" , ()=>{ 
+               replyChangesTocomment(index,data,container,replyButton,replyHolder,nextProfile,nextReply,tryReplies,textarea,user,createdAt,Score,image,replyIcon)
+              
+          
+
+                                 })
+                         
+
+                   
+                }
+             
+       }
+       function deleteEdit(replyIcon,imageInfo,data,index,commentsHolder,addComment,commentsId,newIndex,button,updateButton){
+           replyIcon.addEventListener("click" , ()=>{
+            let deleteEditp = document.createElement("span")
+            let editP = document.createElement("span")
+            
+            editP.classList.add("editP")
+            deleteEditp.classList.add("deleteEditp")
+                 imageInfo.appendChild(deleteEditp)
+                  imageInfo.appendChild(editP)
+                replyIcon._deletePanel=deleteEditp
+                 replyIcon._editPanel=editP
+              deleteEditp.innerHTML=`<img class="deleteIcon" src="./images/icon-delete.svg">Delete` 
+              editP.innerHTML=`<img class="editIcon" src="./images/icon-edit.svg"> Edit`
+               replyIcon.style.display="none"
+                             Delete(index,data,replyIcon,commentsHolder)
+                             Edit(commentsId,replyIcon,newIndex,data,commentsHolder,index,addComment,button,imageInfo,updateButton)
+
+            }) 
+                
+       }
+
+      
+       
+       function Delete(index,data,replyIcon,commentsHolder,newIndex){
+        let commentsId = data.comments[index].id
+        let saveHolder=replyIcon._deletePanel
+        saveHolder.addEventListener("click", ()=>{
+          let newIndex =data.comments.findIndex(co => co.id === commentsId)
+           newIndex = data.comments.filter(co => co.id !== commentsId)
+           commentsHolder.remove()
+        })
+        console.log(commentsId);
+        console.log(saveHolder);
+
+        
+       }
+
+       function Edit(commentsId,replyIcon,newIndex,data,commentsHolder,index,addComment,button,imageInfo,updateButton){
+            let saveEdit = replyIcon._editPanel
+            commentsHolder.addEventListener("click", (e)=>{
+              if(e.target===saveEdit){
+                let updateButton =document.createElement("button")
+              let editTextarea = document.createElement("textarea")
+              commentsHolder.appendChild(editTextarea)
+               imageInfo.appendChild(updateButton)
+              editTextarea.classList.add("editTextarea")
+              updateButton.classList.add("updateButton")
+              updateButton.innerText=`Update`
+              commentsHolder.style.height="220px"
+              addComment.style.display="none"
+              editTextarea.value=data.comments[index].content
+               button.classList.add("Active")  
+               replyIcon._deletePanel.classList.add("deleteActive")
+               replyIcon._editPanel.classList.add("editActive") 
+               
+           
+              }
+            })      
+       }
+       
+       function replyChangesTocomment(index,data,container,replyButton,replyHolder,nextProfile,nextReply,tryReplies,textarea,user,createdAt,Score,image,replyIcon)  {
+          let secondCommentHolder = document.createElement("div");
+               secondCommentHolder.classList.add("secondcommentHolder");
+          replyHolder.insertAdjacentElement("afterend", secondCommentHolder)
+            replyHolder.remove()
+            //Add Data
+            let secondScore = data.comments[index].replies
+            let nextUser = secondScore.find((seu)=> !seu.usedbefore)
+            let nextScore = secondScore.find((se) => !se.dont)
+            let nextDate = secondScore.find((date) => !date.usedDate)
+             
+             
+            // create Element
+            let secondButton = document.createElement("div")
+            let secondImageInfo=document.createElement("div")
+             let secondProfileComment = document.createElement("img")
+             let secondProfileN= document.createElement("p")
+             let secondDateP =document.createElement("p")
+             let secondPlus = document.createElement("span")
+             let secondMinus = document.createElement("span")
+             let secondScoreP = document.createElement("p")
+             let secondReplyIcon = document.createElement("span")
+             let secondAddComment = document.createElement("p")
+            //appendChild
+            secondCommentHolder.appendChild(secondImageInfo)
+            secondImageInfo.appendChild(secondProfileComment)
+            secondImageInfo.appendChild(secondProfileN)
+            secondImageInfo.appendChild(secondDateP)
+            secondImageInfo.appendChild(secondReplyIcon)
+            secondCommentHolder.appendChild(secondButton)
+            secondButton.appendChild(secondPlus)
+            secondButton.appendChild(secondScoreP)
+            secondButton.appendChild(secondMinus)
+            secondCommentHolder.appendChild(secondAddComment)
+
+            //add Class
+            secondImageInfo.classList.add("secondImageInfo")
+            secondReplyIcon.classList.add("secondReplyIcon")
+            secondButton.classList.add("secondButton")
+            secondProfileComment.classList.add("secondProfileComment")
+            secondProfileN.classList.add("secondProfileN")
+            secondDateP.classList.add("secondDateP")
+            secondPlus.classList.add("secondPlus")
+            secondMinus.classList.add("secondMinus")
+            secondAddComment.classList.add("secondAddComment")
+          
+            //DOM 
+            
+
+
+             let tryAddComment = secondCommentHolder.querySelector(".secondAddComment");
+             let newR = firstCommentHolderMaker(textarea, tryReplies);
+                
+              if(textarea.value || user || createdAt || Score || image){
+                  tryAddComment.innerHTML=`<a href="#" class="firstReplying">@${newR.replyingTo}</a> ${newR.content}`
+                  secondProfileN.innerText=`${newR.user.username}`
+                  secondDateP.innerText=`${newR.createdAt}`
+                  secondPlus.innerHTML=`<i class="fa fa-plus" style="font-size:24px"></i>`
+                  secondScoreP.innerText=`${newR.Score}`
+                  secondMinus.innerHTML=`<i class="fa fa-minus" style="font-size:24px"></i>`
+                  secondProfileComment.src=`${newR.user.image.png}`
+                  secondReplyIcon.innerHTML=`<img src="./images/icon-reply.svg">Reply`
+                }else if(nextScore && nextProfile && secondProfileN && nextDate && nextReply){
+                  secondPlus.innerHTML=`<i class="fa fa-plus"></i>`
+                   secondScoreP.innerText=`${nextScore.score}`
+                   secondMinus.innerHTML=`<i class="fa fa-minus"></i>`
+
+          secondProfileComment.src=`${nextProfile.user.image.png}`
+          secondProfileN.innerText=`${nextUser.user.username}`
+          secondDateP.innerText=`${nextDate.createdAt}`
+          secondReplyIcon.innerHTML=`<img src="./images/icon-reply.svg" alt="">Reply`
+                       tryAddComment.innerHTML = `<a href="#" class="firstReplying">@${nextReply.replyingTo}</a> ${nextReply.content}`;
+                 nextReply.used=true
+                nextScore.dont=true
+                nextProfile.use=true
+                nextUser.usedbefore=true
+
+               
+                }else{
+                  alert("please add a comment")
+                  secondCommentHolder.remove()
+                  replyIcon._deletePanel.style.display="none"
+                  replyIcon.style.display="block"
+
+                }
+                   
+                  secondPlus.addEventListener("click", ()=>{
+                   if(newR && textarea.value.length>0){
+                    newR.Score+=1
+                    secondScoreP.innerHTML=`${newR.Score}`
+                    secondPlus.style.pointerEvents="none"
+                    
+                   }else if(nextScore){
+                       nextScore.score+=1
+                    secondScoreP.innerHTML=`${nextScore.score}`
+                    secondPlus.style.pointerEvents="none"
+                   }
+
+             
+                   
+             })
+               secondMinus.addEventListener("click" , ()=>{
+                if( textarea.value.length>0 && newR.Score>0){
+                    newR.Score-=1
+                    secondScoreP.innerHTML=`${newR.Score}`
+                    secondMinus.style.pointerEvents="none"
+                   }else if(nextScore&&nextScore.score>0){
+                      nextScore.score-=1
+                    secondScoreP.innerHTML=`${nextScore.score}`
+                    secondMinus.style.pointerEvents="none"
+                   }
+              })
+       }
+       
+ function firstCommentHolderMaker(textarea,tryReplies){
+              tryReplies = tryReplies || []; 
+   let newReply = {
+        content: textarea.value,
+        replyingTo:"amyRobson",
+        user: {
+            username: "shayanShahroukhi",
+            image: {
+                png: "./images/avatars/avatarpng.webp",
+                webp: "./images/avatars/avatarwebp.webp"
+            }
+        },
+        createdAt: "just now",
+        Score: 0
+    };
+    tryReplies.push(newReply)
+
+    return newReply
+              
+               
+              
+        }
+                
+
+            }
+
+      }
+        dataCm()
