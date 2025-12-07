@@ -1,0 +1,412 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+body{
+        font-family: 'Rubik' !important;
+
+}
+@font-face {
+    font-family: 'Rubik';
+    src: url('./Rubik/Rubik-VariableFont_wght.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+.commentsHolder{
+    width: 50%;
+    height: 140px;
+    margin: 50px auto;
+    background-color: hsl(0, 100%, 100%);
+    box-shadow: 0 5px 15px  black;
+    border-radius: 5px;
+    position: relative;
+}
+
+.secondcommentHolder{
+     width: 45%;
+    height: 140px;
+    margin-left: 385px ;
+    background-color: hsl(0, 100%, 100%);
+    box-shadow: 0 5px 15px  black;
+    border-radius: 5px;
+    position: relative;
+}
+
+.button{
+    background-color: hsl(240, 17%, 90%);
+    width: 50px;
+    height: 90px;
+    display: flex;
+    align-items: center;
+    text-align: center;
+    flex-direction: column;
+    position: absolute;
+    top: 25px;
+    left: 10px;
+    border-radius: 5px;
+}
+
+.secondButton{
+    background-color: hsl(240, 17%, 90%);
+    width: 50px;
+    height: 90px;
+    display: flex;
+    align-items: center;
+    text-align: center;
+    flex-direction: column;
+    position: absolute;
+    top: 25px;
+    left: 10px;
+    border-radius: 5px;
+}
+
+.secondButton .secondPlus, .secondButton .secondMinus{
+   
+    margin-top: 10px;
+   cursor: pointer;
+   color: hsl(239, 57%, 85%);
+   transition-duration: 200ms;
+}
+
+.secondPlus i ,.secondMinus i{
+    font-size: 24px;
+}
+
+.secondButton p{
+    position: relative;
+    top: 7px;
+         font-weight: 800;
+              color: hsl(238, 40%, 52%);
+
+
+}
+
+.button .plus, .button .minus{
+   margin-top: 10px;
+   cursor: pointer;
+   color: hsl(239, 57%, 85%);
+   transition-duration: 200ms;
+}
+
+
+.plus:hover,.minus:hover{
+     color: hsl(238, 40%, 52%);
+}
+
+.secondPlus:hover, .secondMinus:hover{
+         color: hsl(238, 40%, 52%);
+
+}
+
+.button  p{
+    position: relative;
+    top: 7px;
+     color: hsl(238, 40%, 52%);
+     font-weight: 800;
+}
+
+
+
+
+
+
+.imageInfo{
+    position: relative;
+    top: 20px;
+    display: flex;
+    justify-content: space-around;
+}
+
+.secondImageInfo{
+    position: relative;
+    top: 20px;
+    display: flex;
+    justify-content: space-around;
+}
+
+.profile{
+    position: relative;
+    left: 35px;
+        width: 35px;
+
+}
+
+.secondProfileComment{
+    position: relative;
+    left: 35px;
+        width: 35px;
+        border-radius: 50% !important;
+}
+
+.profileN{
+    position: relative;
+    right: 40px;
+}
+
+.secondProfileN{
+     position: relative;
+    right: 40px;
+}
+
+.dateP{
+    position: relative;
+    right: 110px;
+    color:  hsl(211, 10%, 45%);
+}
+
+.secondDateP{
+    position: relative;
+    right: 100px;
+    color:  hsl(211, 10%, 45%);
+}
+
+.commentsHolder .addComment{
+    max-width: 90% ;
+    margin-left: 75px;
+    margin-top: 25px;
+    font-size: 15px;
+        color:  hsl(211, 10%, 45%);
+
+}
+
+.secondcommentHolder .secondAddComment{
+     max-width: 90% ;
+    margin-left: 75px;
+    margin-top: 25px;
+    font-size: 15px;
+        color:  hsl(211, 10%, 45%);
+}
+
+.replyIcon{
+    color:  hsl(211, 10%, 45%);
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.secondReplyIcon{
+     color:  hsl(211, 10%, 45%);
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.replyHolder{
+     width: 50%;
+    height: 140px;
+    margin: 50px auto;
+    background-color: hsl(0, 100%, 100%);
+    box-shadow: 0 5px 15px  black;
+    border-radius: 5px;
+    display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+   gap: 10px;
+  padding: 10px;
+  
+}
+
+
+.textReply{
+     width: 100%;
+    height: 100px;
+    border-radius: 5px;
+}
+
+.editTextarea{
+    position: relative;
+    left: 75px;
+    top: 25px;
+     width: 82%;
+    height: 100px;
+    border-radius: 5px;
+   
+}
+
+.replyHolder .replyProfileImage{
+    width: 35px;
+    
+}
+
+.replyButton{
+    padding: 10px 15px;
+   border-radius: 5px;
+   color: hsl(0, 100%, 100%);
+   background-color: hsl(238, 40%, 52%);
+   border: none;
+   font-weight: 600;
+   transition-duration: 200ms;
+}
+
+.replyButton:hover{
+    opacity: 0.5;
+}
+
+.replyProfileImage{
+    border-radius: 50%;
+}
+
+.firstReplying {
+    color: hsl(238, 40%, 52%);
+    text-decoration: none;
+    font-weight: 800;
+}
+
+.editIcon{
+    margin-left:10px;
+}
+
+.deleteEditp{
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer; 
+    margin-right: -65px;
+}
+
+.editP{
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer; 
+}
+
+.updateButton{
+    position: absolute;
+    top: 150px;
+    left: 82%;
+    background-color: hsl(238, 40%, 52%);
+    border: none;
+    padding: 15px 15px;
+    color: hsl(0, 100%, 100%);
+    border-radius: 5px;
+}
+
+@media only screen and (max-width:768px){
+    .commentsHolder{
+        width: 100%;
+        height: 300px;
+    }.button{
+        width: 90px;
+        height: 50px;
+        flex-direction: row;
+        top: 240px;
+        
+    }.button .plus {
+        margin-bottom: 5px;
+        margin-left: 10px;
+    }.button  p{
+    position: relative;
+    left: 9px;
+    top: 0;
+}.button .minus{
+    margin-bottom: 5px;
+    margin-left: 20px;
+}.profile{
+    left: 0;
+}.profileN{
+    right: 0;
+}.dateP{
+    right: 0;
+}.replyIcon{
+  position: relative;
+  top: 240px;
+  right: 45px;
+}.commentsHolder .addComment{
+    margin-left: 15px;
+    font-size: 20px;
+}.replyHolder{
+    width: 100%;
+    height: 200px;
+    flex-direction: column;
+   
+
+}.textReply{
+    width: 100%;
+   order: -1;
+}.replyButton{
+    margin-left: 70%;
+  
+}.replyProfileImage{
+    position: relative;
+    top: 25%;
+}.secondcommentHolder{
+     width: 100%;
+     height: 300px;
+}.secondButton{
+     width: 90px;
+        height: 50px;
+        flex-direction: row;
+        top: 240px;
+}.secondButton p{
+     position: relative;
+    left: 9px;
+    top: 0;
+}.secondButton .secondPlus{
+    margin-bottom: 5px;
+        margin-left: 10px;
+}.secondButton .secondMinus{
+    margin-bottom: 5px;
+    margin-left: 20px;
+}.secondProfileComment{
+        left: 0;
+
+}.secondProfileN{
+    right: 0;
+}.secondDateP{
+    right: 0;
+}.secondReplyIcon{
+     position: relative;
+  top: 240px;
+  right: 45px;
+}.secondcommentHolder .secondAddComment{
+     margin-left: 15px;
+    font-size: 20px;
+}.secondcommentHolder{
+    margin-left: 0;
+}.deleteEditp{
+     position: relative;
+  top: 240px;
+  right: 90px;
+}.editP{
+      position: relative;
+  top: 240px;
+  right: 45px;
+}.editTextarea{
+    left: 25px;
+}.Active{
+    top: 165px;
+}.editActive{
+     top: 170px;
+  right: 45px;
+}.deleteActive{
+     top: 170px;
+  right: 90px;
+}
+}
+
+@media only screen and (min-width:769px) and (max-width:1024px){
+    .secondcommentHolder{
+        margin-left: 29%;
+        height: 185px;
+    }.commentsHolder{
+        height: 185px;
+    }.profile{
+        left: 50px;
+    }.secondProfileComment{
+        left: 50px;
+    }.secondProfileN{
+        right: 0;
+        left: 28px;
+    }.secondDateP{
+        right: 0;
+        left: 5px;
+    }.profileN{
+        right: 0;
+        left: 28px;
+    }.dateP{
+        right: 0;
+        left: 5px;
+    }
+}  
+
